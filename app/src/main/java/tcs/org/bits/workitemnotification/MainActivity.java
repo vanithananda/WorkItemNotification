@@ -3,51 +3,97 @@ package tcs.org.bits.workitemnotification;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     ArrayAdapter<String> adapter;
-    ArrayList<String> listids = new ArrayList<>();
+    static ArrayList<String>  listids = new ArrayList<>();
+    Button b1,b2;
+    EditText ed1,ed2;
+   static ArrayList<String> listItems = new ArrayList<>();
+
+    static {
+
+        listids.add(0, "15555215556");
+        listItems.add(0, "Vanitha_WorkItem");
+        listItems.add(1, "Sanat_WorkItem");
+        listItems.add(2, "WorkItem2");
+        listItems.add(3, "WorkItem3");
+        listItems.add(4, "WorkItem4");
+        listItems.add(5, "WorkItem5");
+
+    }
+    TextView tx1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
-        ListView listView ;
-        listView = (ListView) findViewById(R.id.listView);
+        if(getIntent()!=null) {
 
-        ArrayList<String> listItems = new ArrayList<>();
-        listItems.add(0,"Vanitha_worklist");
-        listItems.add(1,"Sanat_worklist");
-        listItems.add(2,"Test1_worklist");
-        listItems.add(3, "Test2_worklist");
-        // Defined Array values to show in ListView
+                // Defined Array values to show in ListView
+            ListView listView;
+            adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_single_choice,
+                    listItems);
 
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-        adapter=new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_single_choice,
-                listItems);
-        listView.setAdapter(adapter);
-        //listView.setItemChecked(0, true);
-        listids.add(0, "15555215556");
-
-        if(getIntent() !=null) {
             String incomingnumber = getIntent().getStringExtra("incomingNumber");
 
-            if (incomingnumber!=null && !incomingnumber.isEmpty()) {
+            if (incomingnumber != null && !incomingnumber.isEmpty()) {
+                setContentView(R.layout.activity_main);
+                listView = (ListView) findViewById(R.id.listView);
+                listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+
+                listView.setAdapter(adapter);
+                //listView.setItemChecked(0, true);
                 int i = listids.indexOf(incomingnumber);
                 listView.setItemChecked(i, true);
+            } else {
+
+                setContentView(R.layout.login_page);
+
+                b1 = (Button) findViewById(R.id.button);
+                ed1 = (EditText) findViewById(R.id.editText);
+                ed2 = (EditText) findViewById(R.id.editText2);
+
+                b2 = (Button) findViewById(R.id.button2);
+
+
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setContentView(R.layout.activity_main);
+                        ListView listView;
+                        listView = (ListView) findViewById(R.id.listView);
+                        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+                        listView.setAdapter(adapter);
+
+                    }
+                });
+
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
         }
         TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -95,9 +141,6 @@ public class MainActivity extends Activity {
             switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
                     // CALL_STATE_IDLE;
-                    Toast.makeText(getApplicationContext(), "CALL_STATE_IDLE :" + incomingNumber,
-                            Toast.LENGTH_LONG).show();
-
                     int i = listids.indexOf(incomingNumber);
                     if(i>=0) {
 
@@ -110,7 +153,7 @@ public class MainActivity extends Activity {
                     }
 
                     break;
-                case TelephonyManager.CALL_STATE_OFFHOOK:
+               /* case TelephonyManager.CALL_STATE_OFFHOOK:
                     // CALL_STATE_OFFHOOK;
                     Toast.makeText(getApplicationContext(), "CALL_STATE_OFFHOOK",
                             Toast.LENGTH_LONG).show();
@@ -122,7 +165,7 @@ public class MainActivity extends Activity {
                             Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "CALL_STATE_RINGING",
                             Toast.LENGTH_LONG).show();
-                    break;
+                    break;*/
                 default:
                     break;
             }
