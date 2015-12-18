@@ -23,7 +23,7 @@ public class PopupActivity extends Activity{
 
     public void sayHello(View view, final String incomingNumber) {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setMessage("You got a missed call from " + incomingNumber);
+        builder.setMessage("You got a missed call from the customer in your worklist : " + incomingNumber);
         builder.setTitle("Missed Task Notificatoin");
         builder.setPositiveButton("Open App", new DialogInterface.OnClickListener() {
             @Override
@@ -39,12 +39,6 @@ public class PopupActivity extends Activity{
             setResult(1,null);
                 finish();
 
-               // getApplicationContext().stopService(getIntent());
-               // getApplicationContext().stopService(getParentActivityIntent());
-                //TextureView textureView = new TextureView(getApplicationContext());
-                //Canvas canvas = new Canvas();
-                //canvas.clipRect(3, 3, 3, 3);
-                //textureView.draw(canvas);
             }
         });
 

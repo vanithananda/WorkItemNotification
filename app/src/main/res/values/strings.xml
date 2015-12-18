@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WorkpoolNotification</string>
+    <string name="app_name">WorkItemNotification</string>
     <string name="label">POPUP</string>
     <string name="action_settings">Settings</string>
 
